@@ -1,15 +1,15 @@
 package repo
 
 import (
-	"drone_sphere_server/internal/domain/user"
+	"drone_sphere_server/internal/domain/user/entity"
 	"drone_sphere_server/internal/infra/rdb"
 	"drone_sphere_server/pkg/log"
 )
 
 type IRepository interface {
-	Store(user *user.User) error
-	FindByID(id int64) (*user.User, error)
-	FindByUsername(username string) (*user.User, error)
+	Store(user *entity.User) error
+	FindByID(id int64) (*entity.User, error)
+	FindByUsername(username string) (*entity.User, error)
 }
 
 type Repository struct {
@@ -19,7 +19,7 @@ type Repository struct {
 func NewRepository(rdb *rdb.RDB) *Repository {
 	logger := log.GetLogger()
 	logger.Info("auto migrate user table")
-	err := rdb.DB.AutoMigrate(&user.User{})
+	err := rdb.DB.AutoMigrate(&entity.User{})
 	if err != nil {
 		panic(err)
 	}
@@ -29,7 +29,7 @@ func NewRepository(rdb *rdb.RDB) *Repository {
 	}
 }
 
-func (r *Repository) Store(user *user.User) error {
+func (r *Repository) Store(user *entity.User) error {
 	// 如果 ID 为 0，说明是新建用户
 	if user.ID == 0 {
 		return r.rdb.DB.Create(user).Error
@@ -38,14 +38,14 @@ func (r *Repository) Store(user *user.User) error {
 	return r.rdb.DB.Save(user).Error
 }
 
-func (r *Repository) FindByID(id int64) (*user.User, error) {
-	u := &user.User{}
+func (r *Repository) FindByID(id int64) (*entity.User, error) {
+	u := &entity.User{}
 	err := r.rdb.DB.First(u, id).Error
 	return u, err
 }
 
-func (r *Repository) FindByUsername(username string) (*user.User, error) {
-	u := &user.User{}
+func (r *Repository) FindByUsername(username string) (*entity.User, error) {
+	u := &entity.User{}
 	err := r.rdb.DB.Where("username = ?", username).First(u).Error
 	return u, err
 }

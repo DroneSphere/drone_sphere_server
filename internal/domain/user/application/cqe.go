@@ -1,8 +1,8 @@
-package user_app
+package application
 
 import (
-	platform_app "drone_sphere_server/internal/domain/platform/app"
-	"drone_sphere_server/internal/domain/user"
+	platformapp "drone_sphere_server/internal/domain/platform/application"
+	"drone_sphere_server/internal/domain/user/entity"
 )
 
 type LoginCommand struct {
@@ -13,17 +13,17 @@ type LoginCommand struct {
 
 type LoginSuccessEvent struct {
 	UserID string
-	User   *user.User
+	User   *entity.User
 	SN     string
 }
 
 type LoginResult struct {
-	User   *user.User              `json:"user"`
-	Token  string                  `json:"token"`
-	Info   platform_app.InfoResult `json:"info"`
+	User   *entity.User           `json:"user"`
+	Token  string                 `json:"token"`
+	Info   platformapp.InfoResult `json:"info"`
 	Params struct {
-		MQTT platform_app.MQTTParam `json:"mqtt"`
-		HTTP platform_app.HTTPParam `json:"http"`
+		MQTT platformapp.MQTTParam `json:"mqtt"`
+		HTTP platformapp.HTTPParam `json:"http"`
 	} `json:"params"`
 }
 

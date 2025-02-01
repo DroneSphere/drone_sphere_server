@@ -1,9 +1,9 @@
-package user_app
+package application
 
 import (
 	"context"
-	platformapp "drone_sphere_server/internal/domain/platform/app"
-	"drone_sphere_server/internal/domain/user"
+	platformapp "drone_sphere_server/internal/domain/platform/application"
+	"drone_sphere_server/internal/domain/user/entity"
 	"drone_sphere_server/internal/domain/user/repo"
 	"drone_sphere_server/internal/infra/eventbus"
 	"drone_sphere_server/pkg/token"
@@ -24,7 +24,7 @@ func New(repo repo.IRepository, bus *eventbus.EventBus) *Application {
 
 func (a *Application) Register(ctx context.Context, c RegisterCommand) (*LoginResult, error) {
 	// 创建领域对象
-	u := &user.User{
+	u := &entity.User{
 		Username: c.Username,
 		Password: c.Password,
 	}
@@ -108,7 +108,7 @@ func (a *Application) Login(ctx context.Context, c LoginCommand) (*LoginResult, 
 	}, nil
 }
 
-func (a *Application) GetUserStatus(ctx context.Context, id int64) (*user.User, error) {
+func (a *Application) GetUserStatus(ctx context.Context, id int64) (*entity.User, error) {
 	u, err := a.repo.FindByID(id)
 	if err != nil {
 		return nil, errors.New("u not found")

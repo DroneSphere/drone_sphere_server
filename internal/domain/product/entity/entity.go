@@ -1,4 +1,4 @@
-package product_entity
+package entity
 
 import (
 	"sort"

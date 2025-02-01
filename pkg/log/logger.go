@@ -10,6 +10,7 @@ import (
 var (
 	loggerInstance *slog.Logger
 	once           sync.Once
+	Logger         = GetLogger()
 )
 
 // GetLogger 返回一个单例的 slog.Logger 实例，并使用易于人类阅读理解的 formatter。

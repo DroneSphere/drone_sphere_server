@@ -3,18 +3,18 @@ package web
 import (
 	"drone_sphere_server/internal/adapter"
 	"drone_sphere_server/internal/adapter/web/middleware"
-	user_app "drone_sphere_server/internal/domain/user/app"
+	userapp "drone_sphere_server/internal/domain/user/application"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
 // registerUserRoutes 注册用户相关的路由。
-func RegisterUserRoutes(router fiber.Router, a *user_app.Application) {
+func RegisterUserRoutes(router fiber.Router, a *userapp.Application) {
 	validate := validator.New()
 
 	router.Post("/register", func(c *fiber.Ctx) error {
-		command := new(user_app.RegisterCommand)
+		command := new(userapp.RegisterCommand)
 		if err := c.BodyParser(&command); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(adapter.Failed(-1, err.Error()))
 		}
@@ -31,7 +31,7 @@ func RegisterUserRoutes(router fiber.Router, a *user_app.Application) {
 	})
 
 	router.Post("/login", func(c *fiber.Ctx) error {
-		command := new(user_app.LoginCommand)
+		command := new(userapp.LoginCommand)
 		if err := c.BodyParser(&command); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(adapter.Failed(-1, err.Error()))
 		}

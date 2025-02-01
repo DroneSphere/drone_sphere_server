@@ -1,8 +1,8 @@
-package product_app
+package application
 
 import (
-	"drone_sphere_server/internal/domain/common"
-	entity "drone_sphere_server/internal/domain/product/entity"
+	"drone_sphere_server/internal/core/adapter"
+	"drone_sphere_server/internal/domain/product/entity"
 )
 
 // ConnectRCCommand 连接遥控器命令, 遥控器验证证书后调用
@@ -31,12 +31,12 @@ type ProductTopo struct {
 }
 
 type UpdateTopoEvent struct {
-	common.CommonModel
+	adapter.CommonModel
 	Data UpdateTopoCommand `json:"data"`
 }
 
 type UpdateTopoReplyEvent struct {
-	common.CommonModel
+	adapter.CommonModel
 	Data struct {
 		Result int `json:"result"`
 	}

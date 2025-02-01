@@ -1,4 +1,4 @@
-package platform_entity
+package entity
 
 type Platform struct {
 	Name       string

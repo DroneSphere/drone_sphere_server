@@ -1,4 +1,4 @@
-package platform_app
+package application
 
 // InfoResult 平台信息查询结果
 type InfoResult struct {

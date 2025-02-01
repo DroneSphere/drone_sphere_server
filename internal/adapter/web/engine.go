@@ -2,13 +2,14 @@ package web
 
 import (
 	web "drone_sphere_server/internal/adapter/web/router"
-	user_app "drone_sphere_server/internal/domain/user/app"
+	userapp "drone_sphere_server/internal/domain/user/application"
 	"drone_sphere_server/internal/infra/eventbus"
 	"drone_sphere_server/internal/infra/rdb"
 	"drone_sphere_server/pkg/log"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	recover2 "github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 // Engine 代表使用 Fiber 框架的 Web 服务器引擎。
@@ -36,7 +37,7 @@ func New(rdb *rdb.RDB, eventBus *eventbus.EventBus) *Engine {
 //	error: 始终返回 nil。
 func (e *Engine) Init() error {
 	e.fiber.Use(cors.New())
-	e.fiber.Use(recover2.New())
+	e.fiber.Use(recover.New())
 	return nil
 }
 
@@ -53,11 +54,11 @@ func (e *Engine) RegisterApps(apps map[string]interface{}) {
 	for name, app := range apps {
 		switch name {
 		case "user":
-			web.RegisterUserRoutes(group.Group("/user"), app.(*user_app.Application))
+			web.RegisterUserRoutes(group.Group("/user"), app.(*userapp.Application))
 		case "product":
-			log.GetLogger().Info("product app is not implemented yet")
+			log.GetLogger().Info("product application is not implemented yet")
 		default:
-			panic("Unknown app: " + name)
+			panic("Unknown application: " + name)
 		}
 	}
 }

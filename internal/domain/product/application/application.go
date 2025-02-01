@@ -1,9 +1,9 @@
-package product_app
+package application
 
 import (
 	"context"
-	"drone_sphere_server/internal/domain/common"
-	user_app "drone_sphere_server/internal/domain/user/app"
+	"drone_sphere_server/internal/core/adapter"
+	userapp "drone_sphere_server/internal/domain/user/application"
 	"drone_sphere_server/internal/infra/eventbus"
 	mqtt2 "drone_sphere_server/internal/infra/mqtt"
 	"drone_sphere_server/pkg/log"
@@ -37,8 +37,8 @@ type SNKeyType string
 const SNKey SNKeyType = "sn"
 
 // handleLoginSuccess handles the login success event
-func (a *Application) handleLoginSuccess(event user_app.LoginSuccessEvent) error {
-	log.GetLogger().Info("Product app received login success event")
+func (a *Application) handleLoginSuccess(event userapp.LoginSuccessEvent) error {
+	log.GetLogger().Info("Product application received login success event")
 	log.GetLogger().Info("Event: ", slog.Any("event", event))
 
 	ctx := context.WithValue(context.Background(), SNKey, event.SN)
@@ -53,7 +53,7 @@ func (a *Application) handleLoginSuccess(event user_app.LoginSuccessEvent) error
 		}
 
 		payload := struct {
-			common.CommonModel
+			adapter.CommonModel
 			Data UpdateTopoCommand `json:"data"`
 		}{}
 		err := json.Unmarshal(message.Payload(), &payload)
@@ -64,7 +64,7 @@ func (a *Application) handleLoginSuccess(event user_app.LoginSuccessEvent) error
 		log.GetLogger().Info("Payload: ", slog.Any("payload", payload))
 
 		resp := struct {
-			common.CommonModel
+			adapter.CommonModel
 			Data struct {
 				Result int `json:"result"`
 			} `json:"data"`

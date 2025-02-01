@@ -2,8 +2,8 @@ package main
 
 import (
 	"drone_sphere_server/internal/adapter/web"
-	product_app "drone_sphere_server/internal/domain/product/app"
-	user_app "drone_sphere_server/internal/domain/user/app"
+	productapp "drone_sphere_server/internal/domain/product/application"
+	userapp "drone_sphere_server/internal/domain/user/application"
 	"drone_sphere_server/internal/domain/user/repo"
 	"drone_sphere_server/internal/infra/eventbus"
 	"drone_sphere_server/internal/infra/mqtt"
@@ -37,8 +37,8 @@ func main() {
 
 	// 领域应用Map初始化
 	var apps = make(map[string]interface{})
-	apps["user"] = user_app.New(repo.NewRepository(db), eb)
-	apps["product"] = product_app.New(eb, mq)
+	apps["user"] = userapp.New(repo.NewRepository(db), eb)
+	apps["product"] = productapp.New(eb, mq)
 
 	// Web 服务器初始化
 	webServ := web.New(db, eb)

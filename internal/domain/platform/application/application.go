@@ -1,4 +1,4 @@
-package platform_app
+package application
 
 import "drone_sphere_server/internal/domain/platform/entity"
 
@@ -9,8 +9,8 @@ func New() *Application {
 	return &Application{}
 }
 
-func (a *Application) GetPlatform() (*platform_entity.Platform, error) {
-	pl := &platform_entity.Platform{
+func (a *Application) GetPlatform() (*entity.Platform, error) {
+	pl := &entity.Platform{
 		Name: "Drone Sphere",
 	}
 	return pl, nil
