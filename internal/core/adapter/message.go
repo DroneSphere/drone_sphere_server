@@ -1,4 +1,4 @@
-package common
+package adapter
 
 // CommonModel 通用MQTT消息模型
 type CommonModel struct {
