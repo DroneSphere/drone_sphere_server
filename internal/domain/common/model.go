@@ -1,5 +1,6 @@
-package emqx
+package common
 
+// CommonModel 通用MQTT消息模型
 type CommonModel struct {
 	TID       string `json:"tid"`
 	BID       string `json:"bid"`

@@ -1,7 +1,7 @@
 package user_app
 
 import (
-	"drone_sphere_server/internal/domain/platform/app"
+	platform_app "drone_sphere_server/internal/domain/platform/app"
 	"drone_sphere_server/internal/domain/user"
 )
 
@@ -9,6 +9,12 @@ type LoginCommand struct {
 	Username string `validate:"required" json:"username"`
 	Password string `validate:"required" json:"password"`
 	SN       string `json:"sn"`
+}
+
+type LoginSuccessEvent struct {
+	UserID string
+	User   *user.User
+	SN     string
 }
 
 type LoginResult struct {

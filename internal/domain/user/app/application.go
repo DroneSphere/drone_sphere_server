@@ -5,17 +5,20 @@ import (
 	platformapp "drone_sphere_server/internal/domain/platform/app"
 	"drone_sphere_server/internal/domain/user"
 	"drone_sphere_server/internal/domain/user/repo"
+	"drone_sphere_server/internal/infra/eventbus"
 	"drone_sphere_server/pkg/token"
 	"errors"
 )
 
 type Application struct {
 	repo repo.IRepository
+	bus  *eventbus.EventBus
 }
 
-func NewApplication(repo repo.IRepository) *Application {
+func New(repo repo.IRepository, bus *eventbus.EventBus) *Application {
 	return &Application{
 		repo: repo,
+		bus:  bus,
 	}
 }
 
@@ -64,9 +67,11 @@ func (a *Application) Login(ctx context.Context, c LoginCommand) (*LoginResult, 
 		return nil, errors.New("password is incorrect")
 	}
 
-	// 注册MQ回调函数
-	//ctx = context.WithValue(ctx, "sn", c.SN)
-	//err = mq.Listen(ctx, callback.UpdateTopo)
+	// 发布登录事件
+	eventbus.Publish(a.bus, LoginSuccessEvent{
+		User: u,
+		SN:   c.SN,
+	})
 
 	// 生成 JWT token
 	// 调用外部包（相当于调用外部服务），不能放在领域对象/领域服务中

@@ -1,6 +1,9 @@
 package product_app
 
-import entity "drone_sphere_server/internal/domain/product/entity"
+import (
+	"drone_sphere_server/internal/domain/common"
+	entity "drone_sphere_server/internal/domain/product/entity"
+)
 
 // ConnectRCCommand 连接遥控器命令, 遥控器验证证书后调用
 type ConnectRCCommand struct {
@@ -25,4 +28,16 @@ type ProductTopo struct {
 	DeviceSecret string               `json:"device_secret"`
 	Nonce        string               `json:"nonce"`
 	ThingVersion string               `json:"thing_version"`
+}
+
+type UpdateTopoEvent struct {
+	common.CommonModel
+	Data UpdateTopoCommand `json:"data"`
+}
+
+type UpdateTopoReplyEvent struct {
+	common.CommonModel
+	Data struct {
+		Result int `json:"result"`
+	}
 }

@@ -1,14 +1,16 @@
-package router
+package web
 
 import (
 	"drone_sphere_server/internal/adapter"
 	"drone_sphere_server/internal/adapter/web/middleware"
-	"drone_sphere_server/internal/domain/user/app"
+	user_app "drone_sphere_server/internal/domain/user/app"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
-func UserRoutes(router fiber.Router, a *user_app.Application) error {
+// registerUserRoutes 注册用户相关的路由。
+func RegisterUserRoutes(router fiber.Router, a *user_app.Application) {
 	validate := validator.New()
 
 	router.Post("/register", func(c *fiber.Ctx) error {
@@ -54,6 +56,4 @@ func UserRoutes(router fiber.Router, a *user_app.Application) error {
 		}
 		return c.JSON(adapter.Success(result))
 	})
-
-	return nil
 }
